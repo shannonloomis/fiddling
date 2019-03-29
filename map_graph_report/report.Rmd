@@ -1,0 +1,45 @@
+---
+title: "Report of Random Points"
+output: word_document
+params:
+  n: NA
+  df: NA
+  v: NA
+---
+
+```{r include=FALSE}
+# Setting global parameters to not include code in output
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## 
+## Overview
+
+This report contains data for `r params$n` random data points, with lat/long surrounding the University of Chicago and some random values so we can make histograms and color in the dots on the map.  
+
+The following table shows the raw data for all `r params$n` random points:
+
+
+```{r echo=FALSE, results='asis'}
+library(knitr)
+kable(params$df, row.names = FALSE, 
+      caption = "That's so random...")
+```
+
+
+##
+## Histogram
+
+The user was apparently interested in looking into parameter `r params$v` for some reason.  So we made a histogram of all the values for `r params$v`.
+
+![Random Histogram](histogram.png)
+
+##
+## Map
+
+Parameter `r params$v` in random positions around U of C was so great that the user decided to zoom in on this very site.
+
+![User Map](user_map.png)
+
+#### 
+#### Now go give this report to your boss and take the rest of the day off!
