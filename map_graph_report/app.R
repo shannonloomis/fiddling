@@ -31,6 +31,10 @@ library(mapview)
 library(shiny)
 
 
+### INSTALL PHANTOM JS FOR PLOT EXPORT ###
+webshot::install_phantomjs()
+
+
 ### CREATE DATASET ###
 
 # Define number of datapoints
@@ -142,23 +146,24 @@ server = function(input, output, session) {
     filename = "report.docx",
     content = function(file) {
       
-      # Define temp directory to write/copy files in case don't have write permissions to current directory
-      tmpDir = tempdir()
-      
-      # Copy the report file to a temporary directory before processing
-      tempReport = file.path(tmpDir, "report.Rmd")
-      file.copy("report.Rmd", tempReport, overwrite = TRUE)
+      # # Define temp directory to write/copy files in case don't have write permissions to current directory
+      # tmpDir = tempdir()
+      # 
+      # # Copy the report file to a temporary directory before processing
+      # tempReport = file.path(tmpDir, "report.Rmd")
+      # file.copy("report.Rmd", tempReport, overwrite = TRUE)
       
       # Save the histogram to the temp directory
-      png(filename = file.path(tmpDir,"histogram.png"),
+      png(filename = "histogram.png",#file.path(tmpDir,"histogram.png"),
           width = 480, height = 480)
       print(histogram())
       dev.off()
       
       # Save the map to the temp directory
       mapshot(user_created_map(), 
-              url = file.path(tmpDir,"user_map.html"),
-              file = file.path(tmpDir,"user_map.png"))
+              url = "user_map.html", #file.path(tmpDir,"user_map.html"),
+              file = "user_map.png" #file.path(tmpDir,"user_map.png")
+              )
       
       # Set up parameters to pass to Rmd document
       # We will use the number of data points and the data itself in the report
@@ -168,7 +173,7 @@ server = function(input, output, session) {
       
       
       # Knit the document, passing in the params list
-      rmarkdown::render(tempReport, output_file = file,
+      rmarkdown::render("report.Rmd", output_file = file,
                         params = params,
                         envir = new.env(parent = globalenv())
       )
