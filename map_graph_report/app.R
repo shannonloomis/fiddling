@@ -81,9 +81,10 @@ server = function(input, output, session) {
   # Needs to be done as reactive value so can pass both to UI and to report
   histogram = reactive({
     d = data.frame(value = df[,input$value])
-    ggplot() + geom_histogram(data = d, aes(x = value),
-                              bins=round(log(n,2)),
-                              color="black", fill="darkred") + 
+    ggplot() + 
+      geom_histogram(data = d, aes(x = value),
+                     bins=round(log(n,2)),
+                     color="black", fill="darkred") + 
       theme(
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
